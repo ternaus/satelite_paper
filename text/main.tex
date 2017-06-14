@@ -241,13 +241,13 @@ H = -\frac{1}{n}\sum_{i=1}^n{[y \log(\hat{y})+(1-y)\log(1-\hat{y})]}
 In order to get better results it better that training objective and evaluation metric as close as possible. Hower, the problem is  Jaccard Index is not differentiable. One can generalize it for probability prediction, which on one hand, in the limit of the very confident predictions, turns into normal Jaccard and on the other hand is differentiable – allowing the usage of it in the algorithms that are optimized with gradient descent (\ref{eq:jacmod}). 
 
 \begin{equation} \label{eq:jacmod}
-J_{m}(y, \hat{y}) = \frac{1}{n} \sum_{i=1}^n \frac{\sum y_i \times \hat{y_i}}{\sum y_i + \hat{y_i} - \sum y_i \times \hat{y_i}}
+J_{m}(y, \hat{y}) = \frac{1}{n} \sum_{i=1}^n \frac{y_i \cdot \hat{y_i}}{y_i + \hat{y_i} - y_i \cdot \hat{y_i}}
 \end{equation}
 
 Thus, the joint loss function defined as combination of \ref{eq:bintropy} and \ref{eq:jacmod}:
 
 \begin{equation}
-L = H + \log J_{m}
+L = H - \log J_{m}
 \end{equation}
 
 We used Nadam Optimizer (Adam with Nesterov momentum) \cite{nadam} and trained the network for 50 epochs with a learning rate of 1e-3 and additional 50 epochs with a learning rate of 1e-4. Each epoch was trained on 400 batches, each batch containing 128 image patches. Each batch was created randomly cropping 112x112 patches from original images. In addition each patch was modified by applying a random transformation from $Dih_4$ group.
