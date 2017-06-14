@@ -250,9 +250,9 @@ Thus, the joint loss function defined as combination of \ref{eq:bintropy} and \r
 L = H - \log J_{m}
 \end{equation}
 
-We used Nadam Optimizer (Adam with Nesterov momentum) \cite{nadam} and trained the network for 50 epochs with a learning rate of 1e-3 and additional 50 epochs with a learning rate of 1e-4. Each epoch was trained on 400 batches, each batch containing 128 image patches. Each batch was created randomly cropping 112x112 patches from original images. In addition each patch was modified by applying a random transformation from $Dih_4$ group.
+We used Nadam Optimizer (Adam with Nesterov momentum) \cite{nadam} and trained the network for 50 epochs with a learning rate of 1e-3 and additional 50 epochs with a learning rate of 1e-4. Each epoch was trained on 400 batches, each batch containing 128 image patches. Each batch was created randomly cropping $112 \times 112$ patches from original images. In addition each patch was modified by applying a random transformation from $Dih_4$ group.
 
-We also tried 224x224 patches but due to limited GPU memory this would significantly reduce the batch size from 128 to 32. Larger batches proved to be more important than a larger receptive field. We believe that was due to the train set containing 25 images only, which differ from one another quite heavily. As a result, we decided to trade-off receptive field size in favour of a larger batch size.
+We also tried $224 \times 224$ patches but due to limited GPU memory this would significantly reduce the batch size from 128 to 32. Larger batches proved to be more important than a larger receptive field. We believe that was due to the train set containing 25 images only, which differ from one another quite heavily. As a result, we decided to trade-off receptive field size in favour of a larger batch size.
 
 \begin{figure*}[th]
 	\centering
@@ -291,7 +291,7 @@ One way to deal with such issue was to make the predictions on overlapping patch
 	\item Edges of the predictions were cropped automatically.
 \end{enumerate}
 
-This trick slightly decreased the computation time. To summarize, we trained a separate model for each of the first six classes. Each of them took matrix with a shape 128x16x112x112 as an input and returned the mask for a central region of the input images 128x1x80x80 as an output. Besides, global boundary effects arise during partition original 3600x3600 images into 112x112 tiles due to zero padding. This added some problems at the prediction time. For example, sharp change in pixel values from central to zero padded area was probably interpreted by a network as a wall of the building and as a result we got a layer of building all over the perimeter in the predicted mask. We address this issue with the same trick as in the original U-net paper \cite{unet} (Fig. \ref{fig:boundary2}).
+This trick slightly decreased the computation time. To summarize, we trained a separate model for each of the first six classes. Each of them took matrix with a shape $128 \times 16 \times 112 \times 112$ as an input and returned the mask for a central region of the input images $128 \times 1 \times 80 \times 80$ as an output. Besides, global boundary effects arise during partition original $3600 \times 3600$ images into $112 \times 112$ tiles due to zero padding. This added some problems at the prediction time. For example, sharp change in pixel values from central to zero padded area was probably interpreted by a network as a wall of the building and as a result we got a layer of building all over the perimeter in the predicted mask. We address this issue with the same trick as in the original U-net paper \cite{unet} (Fig. \ref{fig:boundary2}).
 
 \begin{figure}[!h]
 	\captionsetup{justification=centering}
