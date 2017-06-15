@@ -68,7 +68,7 @@ This paper describes our approach to the DSTL Satellite Imagery Feature Detectio
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-The significant increase of satellite imagery has given a radically improved understanding of our planet. Object recognition in aerial imagery is enjoying a growing interest today, due to the recent advancements in computer vision and deep learning, along with important improvements in low-cost high-performance GPUs. The possibility of accurately distinguishing different types of objects in aerial images, such as buildings, roads, vegetation and other categories, could greatly help in many applications, such as creating and keeping up-to-date maps, improving urban planning, environment monitoring, and disaster relief. Besides the practical need for accurate aerial image interpretation systems, this domain also offers scientific challenges to the computer vision.
+The significant increase of satellite imagery has given a radically improved understanding of our planet. Object recognition in aerial imagery enjoys growing interest today, due to the recent advancements in computer vision and deep learning, along with important improvements in low-cost high-performance GPUs. The possibility of accurately distinguishing different types of objects in aerial images, such as buildings, roads, vegetation and other categories, could greatly help in many applications, such as creating and keeping up-to-date maps, improving urban planning, environment monitoring, and disaster relief. Besides the practical need for accurate aerial image interpretation systems, this domain also offers scientific challenges to the computer vision.
 
 In this paper, we describe and analyze these challenges for the specific satellite imagery dataset from a Kaggle competition.  We explore the challenges faced due to the small size of the dataset, the specific character of data, and supervised and unsupervised machine learning algorithms that are suitable for this kind of problems. Our efforts  can be summarized as follows: 
 \begin{itemize}
@@ -86,7 +86,7 @@ In this paper, we describe and analyze these challenges for the specific satelli
 \label{section:related_work}
 Semantic segmentation for images can be defined as the process of partitioning an classifying the image into meaningful parts, and classify each part at the pixel level into one of the pre-defined classes. The current success of deep learning techniques in computer vision tasks motivated researchers to explore such techniques for pixel-level classification tasks as semantic segmentation. The Convolutional Neural Networks (CNN) is the main supervised approached that successfully used for this task. The key advancement of these networks is the ability to learn appropriate feature representation in an end to end manner while avoiding creation of hand-crafted features which require too much tuning to make them work in a particular case.    
 
-The most successful state-of-the-art deep learning method is the Fully Convolutional Network(FCN) \cite{fcn}.  The main idea of this approach is the usage of CNN as a powerful feature extractor while replacing the fully connected layers with convolution ones to output spatial maps instead of classification scores. Those maps are upsampled to produce dense per-pixel output. This method allows training CNN in the end to end manner for segmentation with input images of arbitrary sizes. This approach achieved a notable enhancement in segmentation accuracy over common methods on standard datasets like PASCAL VOC \cite{pascal}.
+The most successful state-of-the-art deep learning method is the Fully Convolutional Network(FCN) \cite{fcn}.  The main idea of this approach is to use a CNN as a powerful feature extractor while replacing the fully connected layers with convolution ones to output spatial maps instead of classification scores. Those maps are upsampled to produce dense per-pixel output. This method allows training CNN in the end to end manner for segmentation with input images of arbitrary sizes. This approach achieved a notable enhancement in segmentation accuracy over common methods on standard datasets like PASCAL VOC \cite{pascal}.
 
 Our solution is based on modified fully convolutional neural network architecture called U-Net  \cite{unet}, that was previously used for the tasks of biomedical image segmentation. The U-Net architecture allows combining low-level feature maps with higher-level ones, which enables precise localization.  A large number of feature channels in upsampling part allows propagating context information to higher resolution layers.  This type of network architecture was specially designed to solve image segmentation problems effectively. Technical details of U-Net adaptation for discussed task provided in Section \ref{section:methods}.
 
@@ -96,7 +96,7 @@ Our solution is based on modified fully convolutional neural network architectur
 
 \subsection{Data description}
 
-During competition dataset was separated into public and private parts. Public part was used for model evaluations during first stage of the competition and final models were evaluated on hidden private test set.
+During competition, the dataset was separated into public and private parts. Public part was used for model evaluations during first stage of the competition and final models were evaluated on hidden private test set.
 The dataset consist of 57 images that were divided into train (25 images) and test (32 images) sets. Each image covers 1 square kilometer of the earth surface. Satellite images of the same area can be separated into several types: a high-resolution panchromatic, an 8-band image with a lower resolution (M-band), and a short-wave infrared (A-band) that has the lowest resolution of all.The detailed band description is provided in \ref{section:sensor}. 
 
 RGB and M-band images partially overlap in the optical spectral range, because high-resolution RGB was itself reconstructed by panchromatic sharpening procedure. Panchromatic sharpening uses a higher-resolution panchromatic image to perform  fusion with a lower-resolution M-band image. The result produces a M-band image with the resolution of the panchromatic  where two rasters fully overlap. We apply several commonly used methods of panchromatic sharpening \cite{pansharp} to provided data (Fig.\ref{fig:pan}). Sharpened channels of M-band images can be used as alternative input to neural network.    
@@ -111,7 +111,7 @@ RGB and M-band images partially overlap in the optical spectral range, because h
 
 The challenge is to assign one or more class labels to each pixel of the input image. The classes with additional description are presented in Table. \ref{tab:classes}. 
 
-The plots in Fig. \ref{fig:cls_distr} shows that target classes are heavily imbalanced within each set of images, e.g. one pixel of both large and small vehicle classes corresponds to a 60,000 pixels with crops. Therefore training a separate model per class provides much better results than single model for prediction of all classes. In addition, the distributions themselves vary significantly from one set of images to another. Also, the water classes were under-represented in the train set compared to the public and the private test sets. As a result unsupervised methods, that described in Section \ref{subsec:reflectance} shows better performance than neural network approaches. 
+The plots in Fig. \ref{fig:cls_distr} shows that target classes are heavily imbalanced within each set of images, e.g. one pixel of both large and small vehicle classes corresponds to a 60,000 pixels with crops. Therefore training a separate model per class provides much better results than single model for prediction of all classes. In addition, the distributions themselves vary significantly from one set of images to another. Also, the water classes were under-represented in the train set compared to the public and the private test sets. As a result, unsupervised methods described in Section \ref{subsec:reflectance} show better performance than neural network approaches. 
 
 \begin{figure}[!h]
 	\captionsetup{justification=centering}
@@ -146,7 +146,7 @@ The plots in Fig. \ref{fig:cls_distr} shows that target classes are heavily imba
 \subsection{Multispectral Sensor}
 \label{section:sensor}
 
-WorldView-3 satellite is one of the commercial satellites, which provide 31 cm panchromatic resolution, 1.24 m multispectral resolution, and 7.5 m resolution for short-wave infrared channels. Multispectral images enable to extract important features that beyond human vision, e.g. the near infrared wavelength is usually used to separate vegetation varieties and conditions due to strong reflection in this range of electromagnetic spectrum that vegetation provides. Besides, the color depth of such images is 11 and 14-bit instead of commonly used 8-bit. From a neural network perspective it is better, each pixel carries more information, while it creates additional steps for proper visualization.
+WorldView-3 satellite is one of the commercial satellites, which provide 31 cm panchromatic resolution, 1.24 m multispectral resolution, and 7.5 m resolution for short-wave infrared channels. Multispectral images enable to extract important features that beyond human vision. For example, the near infrared wavelength is usually used to separate vegetation varieties and conditions due to strong reflection in this range of electromagnetic spectrum that vegetation provides. Besides, the color depth of such images is 11 and 14-bit instead of commonly used 8-bit. From a neural network perspective it is better, because each pixel carries more information, while it creates additional steps for proper visualization.
 
 The multispectral bands can be used for recognition of specific classes of object:
 
@@ -183,7 +183,7 @@ The multispectral bands can be used for recognition of specific classes of objec
 \subsection{Reflectance indices}
 \label{subsec:reflectance}
 
-Apparently fact that we have infrared and other channels from non-optical frequency range allows to identify some classes purely from the pixel values, without any contextual information. Using this approach, the best results were obtained for water and vegetation classes. For instance, in our final solution both water classes were segmented using CCCI \cite{ccci} and NDWI reflectance indexes, that defined as follows:
+Apparently, the fact that we have infrared and other channels from non-optical frequency range allows us to identify some classes purely from the pixel values, without any contextual information. Using this approach, the best results were obtained for water and vegetation classes. For instance, in our final solution both water classes were segmented using CCCI \cite{ccci} and NDWI reflectance indexes, that defined as follows:
 
 \begin{equation}
 {\rm CCCI} = \frac{{\rm NIR} - {\rm RED}_{\rm edge}}{{\rm NIR} + {\rm RED}_{\rm edge}}\times{\frac{{\rm NIR} + {\rm RED}}{{\rm NIR} - {\rm RED}}}
@@ -204,12 +204,12 @@ Apparently fact that we have infrared and other channels from non-optical freque
 	\label{fig:ccci}
 \end{figure}
 
-We expected a deep learning approach to perform as well as or even better than index thresholding and, in vegetation prediction, neural networks did indeed outperform indices. However, we found that indices allow us to achieve better results for under-represented classes such as waterways and standing water. In the provided images, ponds were smaller than rivers, so we additionally thresholded our predictions by area of water body to distinguish waterways from standing water.
+We expected a deep learning approach to perform on par or even better than index thresholding and, in vegetation prediction, neural networks did indeed outperform indices. However, we found that indices allow us to achieve better results for under-represented classes such as waterways and standing water. In the provided images ponds were smaller than rivers, so we additionally thresholded our predictions by area of water body to distinguish waterways from standing water.
 
 \subsection{Multispectral U-NET}
 
-In general, U-Net architecture consist of contracting and expansive paths. The contractive path follows the typical convolution neural network architecture.
-We use batch normalization \cite{batchnorm} for convergence acceleration during training. In addition, instead of rectified linear unit we use exponential linear \cite{elu} unit as primary activation function, which is beneficial for learning and it helps to learn representations that are more robust to noise. The number of feature channels is doubled at each down-sampling step. Expansive path consist of upsampling operation of the feature map followed by convolution with half number of feature channels, concatenation with the corresponding feature map from contracting path, also followed by batch normalization and ELU. 
+In general, U-Net architecture consists of contracting and expansive paths. The contractive path follows the typical convolution neural network architecture.
+We use batch normalization \cite{batchnorm} for convergence acceleration during training. In addition, instead of the rectified linear unit we use exponential linear \cite{elu} unit as primary activation function, which is beneficial for learning and it helps to learn representations that are more robust to noise. The number of feature channels is doubled at each down-sampling step. Expansive path consist of upsampling operation of the feature map followed by convolution with half number of feature channels, concatenation with the corresponding feature map from contracting path, also followed by batch normalization and ELU. 
 
 As a primary input we perform early fusion of multispectral bands, reflectance indices and RGB channels, stacking them into single tensor. The full architecture presented in Fig. \ref{fig:unet}.
 
@@ -237,7 +237,7 @@ The common loss function for classification tasks is categorical cross entropy, 
 H = -\frac{1}{n}\sum_{i=1}^n{[y \log(\widehat{y})+(1-y)\log(1-\widehat{y})]}
 \end{equation}
 
-In order to get better results it better that training objective and evaluation metric as close as possible. Hower, the problem is  Jaccard Index is not differentiable. One can generalize it for probability prediction, which on one hand, in the limit of the very confident predictions, turns into normal Jaccard and on the other hand is differentiable – allowing the usage of it in the algorithms that are optimized with gradient descent (\ref{eq:jacmod}). 
+In order to get better results, training objective and evaluation metric should be as close as possible. However, the problem is  Jaccard Index is not differentiable. One can generalize it for probability prediction, which on the one hand, in the limit of the very confident predictions, turns into normal Jaccard and on the other hand is differentiable – allowing the usage of it in the algorithms that are optimized with gradient descent (\ref{eq:jacmod}). 
 
 \begin{equation} \label{eq:jacmod}
 J_{m}(y, \widehat{y}) = \frac{1}{n} \sum_{i=1}^n \frac{y_i \cdot \widehat{y_i}}{y_i + \widehat{y_i} - y_i \cdot \widehat{y_i}}
@@ -263,9 +263,9 @@ We also tried $224 \times 224$ patches but due to limited GPU memory this would 
 
 \subsection{Boundary effects}
 
-During training procedure we prepare patches cropping them from the original images, augment and feed into the neural network. However, the same patching strategy applied during prediction stage lead to square structure in resulted image, as presented in Fig. \ref{fig:boundarybad}. 
+During training procedure we prepared patches cropping them from the original images, augment and feed into the neural network. However, the same patching strategy applied during prediction stage lead to square structure in resulted image, as presented in Fig. \ref{fig:boundarybad}. 
 
-The main reason of such square structure is that not all outputs in the Fully Connected Network are equally good. Number of ways that you can get from any input pixel to the central part of the output in a network is much higher than to the edge ones. As a result prediction quality is decreasing when you move away from center. We checked this hypothesis for a few classes, e.g analysis for building class presented in Fig. \ref{fig:boundary}.
+The main reason of such square structure is that not all outputs in the Fully Connected Network are equally good. Number of ways to get from any input pixel to the central part of the output in a network is much higher than to get the edge ones. As a result, prediction quality is decreasing when you move away from center. We tested this hypothesis for a few classes, e.g analysis for building class presented in Fig. \ref{fig:boundary}.
 
 \begin{figure}[!h]
 	\captionsetup{justification=centering}
@@ -283,14 +283,14 @@ The main reason of such square structure is that not all outputs in the Fully Co
 	\label{fig:boundary}
 \end{figure}
 
-One way to deal with such issue was to make the predictions on overlapping patches, and crop them on the edges, but we came out with a better way. We added cropping layer to the output layers of our networks, which solved two main problem simultaneously:
+One way to deal with such issue was to make the predictions on overlapping patches, and crop them on the edges, but we came out with a better way. We added cropping layer to the output layers of our networks, which solved two main problems simultaneously:
 
 \begin{enumerate}
 	\item Losses on boundary artefacts were not back-propagated through the network;
 	\item Edges of the predictions were cropped automatically.
 \end{enumerate}
 
-This trick slightly decreased the computation time. To summarize, we trained a separate model for each of the first six classes. Each of them took matrix with a shape $128 \times 16 \times 112 \times 112$ as an input and returned the mask for a central region of the input images $128 \times 1 \times 80 \times 80$ as an output. Besides, global boundary effects arise during partition original $3600 \times 3600$ images into $112 \times 112$ tiles due to zero padding. This added some problems at the prediction time. For example, sharp change in pixel values from central to zero padded area was probably interpreted by a network as a wall of the building and as a result we got a layer of building all over the perimeter in the predicted mask. We address this issue with the same trick as in the original U-net paper \cite{unet} (Fig. \ref{fig:boundary2}).
+This trick slightly decreased computational time. To summarize, we trained a separate model for each of the first six classes. Each of them took a matrix with a shape $128 \times 16 \times 112 \times 112$ as an input and returned the mask for a central region of the input images $128 \times 1 \times 80 \times 80$ as an output. Besides, global boundary effects arise during partition original $3600 \times 3600$ images into $112 \times 112$ tiles due to zero padding. This added some problems at the prediction time. For example, sharp change in pixel values from central to zero padded area was probably interpreted by a network as a wall of the building and as a result we got a layer of building all over the perimeter in the predicted mask. We address this issue with the same trick as in the original U-net paper \cite{unet} (Fig. \ref{fig:boundary2}).
 
 \begin{figure}[!h]
 	\captionsetup{justification=centering}
