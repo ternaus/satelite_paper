@@ -186,11 +186,11 @@ The multispectral bands can be used for recognition of specific classes of objec
 Apparently fact that we have infrared and other channels from non-optical frequency range allows to identify some classes purely from the pixel values, without any contextual information. Using this approach, the best results were obtained for water and vegetation classes. For instance, in our final solution both water classes were segmented using CCCI \cite{ccci} and NDWI reflectance indexes, that defined as follows:
 
 \begin{equation}
-CCCI=\frac{NIR-RED_{edge}}{NIR+RED_{edge}}\times{\frac{NIR+RED}{NIR-RED}}
+{\rm CCCI} = \frac{{\rm NIR} - {\rm RED}_{\rm edge}}{{\rm NIR} + {\rm RED}_{\rm edge}}\times{\frac{{\rm NIR} + {\rm RED}}{{\rm NIR} - {\rm RED}}}
 \end{equation} 
 
 \begin{equation}
-NDWI=\frac{GREEN-NIR}{GREEN+NIR}
+{\rm NDWI} = \frac{{\rm GREEN} - {\rm NIR}}{{\rm GREEN} + {\rm NIR}}
 \end{equation} 
 
 \noindent where both indexes represented as ratios of the difference and sum of pixel values in the green, red edge, red and infrared channels. The results shows high intensity values for waterways, but it also shows false positives on some buildings due to the relative similarity of the specific heat of metal roofs and water. Water classes segmentation results presented in Fig. \ref{fig:ccci}.
@@ -226,22 +226,21 @@ Evaluation metric is Jaccard index, also known as intersection over union, which
  
 \begin{equation}
 \begin{aligned}
-J(A,B) = \frac{\mid A \cap B \mid }{\mid A \cup B \mid} &= \frac{\mid A \cap B \mid}{\mid A \mid + \mid B \mid - \mid A \cap B \mid} \\ \\ 
-0 \le & J(A,B) \le 1
+J(A, B) = \frac{\mid A \cap B \mid }{\mid A \cup B \mid} &= \frac{\mid A \cap B \mid}{\mid A \mid + \mid B \mid - \mid A \cap B \mid} \\ \\ 
+0 \le & J(A, B) \le 1
 \end{aligned}
 \end{equation}
 
 The common loss function for classification tasks is categorical cross entropy, however in our case classes are not mutually exclusive and using binary cross entropy makes more sense. The binary cross entropy defined as follows:
-
  
 \begin{equation} \label{eq:bintropy}
-H = -\frac{1}{n}\sum_{i=1}^n{[y \log(\hat{y})+(1-y)\log(1-\hat{y})]}
+H = -\frac{1}{n}\sum_{i=1}^n{[y \log(\widehat{y})+(1-y)\log(1-\widehat{y})]}
 \end{equation}
 
 In order to get better results it better that training objective and evaluation metric as close as possible. Hower, the problem is  Jaccard Index is not differentiable. One can generalize it for probability prediction, which on one hand, in the limit of the very confident predictions, turns into normal Jaccard and on the other hand is differentiable – allowing the usage of it in the algorithms that are optimized with gradient descent (\ref{eq:jacmod}). 
 
 \begin{equation} \label{eq:jacmod}
-J_{m}(y, \hat{y}) = \frac{1}{n} \sum_{i=1}^n \frac{y_i \cdot \hat{y_i}}{y_i + \hat{y_i} - y_i \cdot \hat{y_i}}
+J_{m}(y, \widehat{y}) = \frac{1}{n} \sum_{i=1}^n \frac{y_i \cdot \widehat{y_i}}{y_i + \widehat{y_i} - y_i \cdot \widehat{y_i}}
 \end{equation}
 
 Thus, the joint loss function defined as combination of \ref{eq:bintropy} and \ref{eq:jacmod}:
@@ -256,7 +255,7 @@ We also tried $224 \times 224$ patches but due to limited GPU memory this would 
 
 \begin{figure*}[th]
 	\centering
-	\includegraphics[scale=0.265]{unet}
+	\includegraphics[scale=0.28]{unet}
 	\captionsetup{justification=centering}
 	\caption{Multispectral U-Net architecture consists of down-sampling and up-sampling \\ parts with skip connections between them.  Combinations of multispectral and \\ panchromatic bands with main reflectance indexes combined \\ into single tensor for input to the neural network. }
 	\label{fig:unet}
