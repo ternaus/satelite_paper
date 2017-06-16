@@ -48,13 +48,17 @@
 %%%%%%%%% TITLE
 \title{Satellite Imagery Feature Detection using \\ Deep Convolutional Neural Network: A Kaggle Competition}
 
-\author[1]{Vladimir Iglovikov}
-\author[2]{Sergey Mushinskiy}
-\author[3]{Vladimir Osin}
+\author{Vladimir Iglovikov}
+\affil{True Accord \\
+\url{iglovikov@gmail.com}}
 
-\affil[1]{True Accord}
-\affil[2]{Open Data Science}
-\affil[3]{AeroState}
+\author{Sergey Mushinskiy}
+\affil{Open Data Science \\
+\url{cepera.ang@gmail.com}}
+
+\author{Vladimir Osin}
+\affil{AeroState \\
+\url{resolutn@gmail.com}}
 
 \renewcommand\Authands{ and }
 
@@ -63,7 +67,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ABSTRACT
 \begin{abstract}
-This paper describes our approach to the DSTL Satellite Imagery Feature Detection challenge run by Kaggle. The primary goal of this challenge is accurate semantic segmentation of different classes in satellite imagery. Our approach is based on an adaptation of fully convolutional neural network for multispectral data processing.  In addition, we defined several modifications to the training objective and overall training pipeline, e.g. boundary effect estimation, also we discuss usage of data augmentation strategies and reflectance indices. Provided solution can be used as a part of automatic feature labeling systems for satellite imagery analysis.
+This paper describes our approach to the DSTL Satellite Imagery Feature Detection challenge run by Kaggle. The primary goal of this challenge is accurate semantic segmentation of different classes in satellite imagery. Our approach is based on an adaptation of fully convolutional neural network for multispectral data processing.  In addition, we defined several modifications to the training objective and overall training pipeline, e.g. boundary effect estimation, also we discuss usage of data augmentation strategies and reflectance indices. Our solution scored third place out of 419 entries. Its accuracy is comparable to that of the first two places, but unlike those solutions, it doesn't rely on complex ensembling techniques and thus can be easily scaled for deployment in production as a part of automatic feature labeling systems for satellite imagery analysis.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
