@@ -1,5 +1,5 @@
 \documentclass[10pt,twocolumn,letterpaper]{article}
-\usepackage{caption}
+
 \usepackage{iccv}
 \usepackage{times}
 \usepackage{epsfig}
@@ -10,7 +10,7 @@
 
 \usepackage{enumitem}
 \usepackage{makecell}
-
+\usepackage{caption}
 % Include other packages here, before hyperref.
 
 % If you comment hyperref and then uncomment it, you should delete
@@ -35,7 +35,7 @@
 
 \author{Vladimir Iglovikov\\
 True Accord\\
-{\tt\small viglovikov@ucdavis.edu}
+{\tt\small iglovikov@gmail.com}
 \and
 Sergey Mushinskiy\\
 Open Data Science\\
@@ -84,8 +84,8 @@ Our solution is based on modified fully convolutional neural network architectur
 
 \subsection{Data description}
 
-During the competition, the dataset was separated into public and private (hidden) parts. Public part was used for model evaluations during first stage of the competition while final models were evaluated on private test set.
-The dataset consists of 57 images that were divided into train (25 images) and test (32 images) sets. Each image covers 1 square kilometer of the earth surface. Satellite images of the same area can be separated into several types: a high-resolution panchromatic, an 8-band image with a lower resolution (M-band), and a short-wave infrared (A-band) that has the lowest resolution of all.The detailed band description is provided in \ref{section:sensor}.
+During the competition, the dataset was split into public and private (hidden) parts. Public part was used for model evaluations during first stage of the competition while final models were evaluated on private test set.
+The dataset consists of 57 images that were divided into train (25 images) and test (32 images) sets. Each image covers 1 square kilometer of the earth surface. Satellite images of the same area can be separated into several types: a high-resolution panchromatic, an 8-band image with a lower resolution (M-band), and a short-wave infrared (A-band) that has the lowest resolution of all. The detailed band description is provided in \autoref{section:sensor}.
 
 RGB and M-band images partially overlap in the optical spectral range, because high-resolution RGB was itself reconstructed by panchromatic sharpening procedure. Panchromatic sharpening uses a higher-resolution panchromatic image to perform  fusion with a lower-resolution M-band image. The result produces a M-band image with the resolution of the panchromatic  where two rasters fully overlap. We apply several commonly used methods of panchromatic sharpening \cite{pansharp} to provided data (Fig.\ref{fig:pan}). Sharpened channels of M-band images can be used as alternative input to neural network.
 
@@ -235,7 +235,7 @@ We also tried $224 \times 224$ patches but due to limited GPU memory this would 
 
 \begin{figure*}[th]
 	\centering
-	\includegraphics[scale=0.35]{unet}
+	\includegraphics[scale=0.4]{unet}
 	\captionsetup{justification=centering}
 	\caption{Multispectral U-Net architecture consists of down-sampling and upsampling \\ parts with skip connections between them.  Combinations of multispectral and \\ panchromatic bands with main reflectance indices combined \\ into single tensor for input to the neural network. }
 	\label{fig:unet}
@@ -284,7 +284,7 @@ To summarize, we trained a separate model for each of the first six classes. Eac
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion}
+\section{Results}
 
 In conclusion, we would like to add that successful approach % TODO expand reasoning why approach is successful and what it was. Basically some summary
 to above-mentioned problems allows to significantly improve the quality of final models. Our approach includes several steps, such as the adaptation of fully convolutional network to multispectral satellite images with joint training objective and analysis of boundary effects, reflectance indices. The final results summarized in Table \ref{tab:results}.
@@ -312,7 +312,7 @@ Vehicle Small & 0.0186 & 0.00000 \\
 
 \newpage
 
-\begin{thebibliography}{10}
+\begin{thebibliography}{20}
 
 	\bibitem{fcn} Long, Jonathan, Evan Shelhamer, and Trevor Darrell. "Fully convolutional networks for semantic segmentation." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2015.
 
